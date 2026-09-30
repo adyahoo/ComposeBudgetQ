@@ -158,7 +158,7 @@ spacing:
 
 - **Language**: Kotlin
 - **Design Pattern**: MVVM
-- **Project Structure**: Simple Clean Architecture (Data Layer, Domain Layer, Presentation Layer)
+- **Project Structure**: Simple Clean Architecture (Data Layer, Domain Layer, UI Layer)
 - **UI Framework**: Jetpack Compose
 - **Dependency Injection**: Hilt
 - **Asynchrony**: Kotlin Coroutines & Flow
@@ -290,3 +290,4 @@ When generating code for this project, always:
 1. Follow the MVVM pattern with state tracking via `MutableStateFlow`.
 2. Keep UI components as reusable `@Composable` functions.
 3. Place business logic in the `ViewModel`, never in the UI layer.
+4. Use Hilt as DI library.
