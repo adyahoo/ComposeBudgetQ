@@ -2,6 +2,7 @@ package com.example.budgetlimittracking.ui.navigation
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -11,17 +12,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.material3.MaterialTheme
-import com.example.budgetlimittracking.data.datasource.LocalDataSource
-import com.example.budgetlimittracking.data.repository.BudgetRepositoryImpl
-import com.example.budgetlimittracking.data.repository.ExpenseRepositoryImpl
-import com.example.budgetlimittracking.domain.usecase.GetBudgetsUseCase
-import com.example.budgetlimittracking.domain.usecase.GetExpenseHistoryUseCase
-import com.example.budgetlimittracking.domain.usecase.RecordExpenseUseCase
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.budgetlimittracking.ui.dashboard.DashboardScreen
 import com.example.budgetlimittracking.ui.dashboard.DashboardViewModel
 import com.example.budgetlimittracking.ui.history.HistoryScreen
@@ -30,22 +24,12 @@ import com.example.budgetlimittracking.ui.recordexpense.RecordExpenseScreen
 import com.example.budgetlimittracking.ui.recordexpense.RecordExpenseViewModel
 
 @Composable
-fun AppNavigation(modifier: Modifier = Modifier) {
-    // Shared Data Sources & Repositories for initial architecture container
-    val localDataSource = remember { LocalDataSource() }
-    val budgetRepository = remember { BudgetRepositoryImpl(localDataSource) }
-    val expenseRepository = remember { ExpenseRepositoryImpl(localDataSource) }
-
-    // UseCases
-    val getBudgetsUseCase = remember { GetBudgetsUseCase(budgetRepository) }
-    val recordExpenseUseCase = remember { RecordExpenseUseCase(budgetRepository, expenseRepository) }
-    val getExpenseHistoryUseCase = remember { GetExpenseHistoryUseCase(expenseRepository) }
-
-    // ViewModels
-    val dashboardViewModel = remember { DashboardViewModel(getBudgetsUseCase) }
-    val recordExpenseViewModel = remember { RecordExpenseViewModel(getBudgetsUseCase, recordExpenseUseCase) }
-    val historyViewModel = remember { HistoryViewModel(getExpenseHistoryUseCase) }
-
+fun AppNavigation(
+    modifier: Modifier = Modifier,
+    dashboardViewModel: DashboardViewModel = hiltViewModel(),
+    recordExpenseViewModel: RecordExpenseViewModel = hiltViewModel(),
+    historyViewModel: HistoryViewModel = hiltViewModel()
+) {
     var currentScreen by rememberSaveable { mutableStateOf(Screen.DASHBOARD) }
 
     Scaffold(

@@ -9,8 +9,9 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.UUID
+import javax.inject.Inject
 
-class RecordExpenseUseCase(
+class RecordExpenseUseCase @Inject constructor(
     private val budgetRepository: BudgetRepository,
     private val expenseRepository: ExpenseRepository
 ) {

@@ -7,8 +7,11 @@ import com.example.budgetlimittracking.domain.model.BudgetCycle
 import com.example.budgetlimittracking.domain.repository.BudgetRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class BudgetRepositoryImpl(
+@Singleton
+class BudgetRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSource
 ) : BudgetRepository {
 

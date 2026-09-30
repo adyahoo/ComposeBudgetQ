@@ -5,14 +5,17 @@ import androidx.lifecycle.viewModelScope
 import com.example.budgetlimittracking.domain.model.BudgetCategory
 import com.example.budgetlimittracking.domain.usecase.GetBudgetsUseCase
 import com.example.budgetlimittracking.domain.usecase.RecordExpenseUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class RecordExpenseViewModel(
+@HiltViewModel
+class RecordExpenseViewModel @Inject constructor(
     private val getBudgetsUseCase: GetBudgetsUseCase,
     private val recordExpenseUseCase: RecordExpenseUseCase
 ) : ViewModel() {

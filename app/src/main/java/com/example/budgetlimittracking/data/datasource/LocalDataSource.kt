@@ -8,8 +8,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class LocalDataSource {
+@Singleton
+class LocalDataSource @Inject constructor() {
     private val _budgets = MutableStateFlow<List<BudgetEntity>>(initialBudgets())
     val budgets: StateFlow<List<BudgetEntity>> = _budgets.asStateFlow()
 
