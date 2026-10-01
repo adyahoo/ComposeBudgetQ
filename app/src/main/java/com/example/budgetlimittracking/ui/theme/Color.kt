@@ -48,13 +48,15 @@ val TextMutedLight = Color(0xFF64748B)
 val TextPrimaryDark = Color(0xFFF8FAFC)
 val TextMutedDark = Color(0xFF94A3B8)
 
-// Cycle Tag Specific Colors
-val TagDailyBg = Color(0xFFEEF2FF)
-val TagDailyText = Color(0xFF4F46E5)
-val TagWeeklyBg = Color(0xFFF1F5F9)
-val TagWeeklyText = Color(0xFF475569)
-val TagMonthlyBg = Color(0xFFFAF5FF)
-val TagMonthlyText = Color(0xFF7E22CE)
+val TagDailyBg = Color(0xfffef9c3)
+val TagDailyText = Color(0xff854d0e)
+val TagDailyBorder = Color(0xfffef08a)
+val TagWeeklyBg = Color(0xffe0e7ff)
+val TagWeeklyText = Color(0xff3730a3)
+val TagWeeklyBorder = Color(0xffc7d2fe)
+val TagMonthlyBg = Color(0xffe0f2fe)
+val TagMonthlyText = Color(0xff0369a1)
+val TagMonthlyBorder = Color(0xffbae6fd)
 
 // Financial Progress Bar Semantics
 val ProgressSafe = Color(0xFF10B981)      // 0% - 75%

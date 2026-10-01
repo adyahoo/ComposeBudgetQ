@@ -10,6 +10,9 @@ data class Budget(
     val remainingAmount: Double
         get() = (limitAmount - spentAmount).coerceAtLeast(0.0)
 
+    val exceededAmount: Double
+        get() = (spentAmount - limitAmount).coerceAtLeast(0.0)
+
     val usagePercentage: Float
         get() = if (limitAmount > 0) ((spentAmount / limitAmount) * 100).toFloat() else 0f
 
