@@ -1,6 +1,5 @@
 package com.example.budgetlimittracking.ui.navigation
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -86,9 +85,8 @@ fun AppNavigation(
                 val uiState by recordExpenseViewModel.uiState.collectAsState()
                 RecordExpenseScreen(
                     uiState = uiState,
-                    onTitleChanged = recordExpenseViewModel::onTitleChanged,
                     onAmountChanged = recordExpenseViewModel::onAmountChanged,
-                    onCategorySelected = recordExpenseViewModel::onCategorySelected,
+                    onBudgetSelected = recordExpenseViewModel::onBudgetSelected,
                     onSubmitExpense = recordExpenseViewModel::submitExpense,
                     onNavigateBack = { currentScreen = Screen.DASHBOARD },
                     modifier = paddingModifier

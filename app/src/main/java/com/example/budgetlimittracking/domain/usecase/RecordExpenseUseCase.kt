@@ -1,5 +1,6 @@
 package com.example.budgetlimittracking.domain.usecase
 
+import com.example.budgetlimittracking.domain.model.Budget
 import com.example.budgetlimittracking.domain.model.BudgetCategory
 import com.example.budgetlimittracking.domain.model.Expense
 import com.example.budgetlimittracking.domain.repository.BudgetRepository
@@ -18,28 +19,25 @@ class RecordExpenseUseCase @Inject constructor(
     suspend operator fun invoke(
         title: String,
         amount: Double,
-        category: BudgetCategory
+        budget: Budget,
     ): Result<Expense> {
         if (amount <= 0) {
             return Result.failure(IllegalArgumentException("Amount must be greater than zero."))
         }
 
-        val budgets = budgetRepository.getBudgets().firstOrNull() ?: emptyList()
-        val targetBudget = budgets.find { it.category == category }
-
-        val currentSpent = targetBudget?.spentAmount ?: 0.0
-        val limitAmount = targetBudget?.limitAmount ?: 0.0
+        val currentSpent = budget.spentAmount
+        val limitAmount = budget.limitAmount
         val updatedSpent = currentSpent + amount
 
-        val isExceeded = targetBudget != null && updatedSpent > limitAmount
+        val isExceeded = updatedSpent > limitAmount
 
         val dateFormat = SimpleDateFormat("MMM dd, yyyy - HH:mm", Locale.getDefault())
         val now = System.currentTimeMillis()
 
         val newExpense = Expense(
             id = UUID.randomUUID().toString(),
-            title = if (title.isBlank()) category.displayName else title,
-            category = category,
+            title = title.ifBlank { budget.category.displayName },
+            category = budget.category,
             amount = amount,
             timestamp = now,
             dateString = dateFormat.format(Date(now)),
@@ -48,9 +46,7 @@ class RecordExpenseUseCase @Inject constructor(
 
         expenseRepository.recordExpense(newExpense)
 
-        if (targetBudget != null) {
-            budgetRepository.updateSpentAmount(targetBudget.id, updatedSpent)
-        }
+        budgetRepository.updateSpentAmount(budget.id, updatedSpent)
 
         return Result.success(newExpense)
     }

@@ -89,6 +89,7 @@ fun DashboardScreen(
             contentPadding = PaddingValues(Dimens.Margin),
             verticalArrangement = Arrangement.spacedBy(Dimens.SpaceMd)
         ) {
+            // 0. Top Bar
             item {
                 Column(
                     verticalArrangement = Arrangement.Top,
@@ -108,6 +109,7 @@ fun DashboardScreen(
                     )
                 }
             }
+
             // 1. Monthly Velocity Summary Bento Card
             item {
                 Card(
