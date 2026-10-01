@@ -50,29 +50,29 @@ class LocalDataSource @Inject constructor() {
                 id = "b1",
                 categoryName = BudgetCategory.FOOD_DINING.name,
                 cycleName = BudgetCycle.DAILY.name,
-                limitAmount = 50.0,
-                spentAmount = 38.0
+                limitAmount = 5000000.0,
+                spentAmount = 3800000.0
             ),
             BudgetEntity(
                 id = "b2",
                 categoryName = BudgetCategory.TRANSPORTATION.name,
                 cycleName = BudgetCycle.WEEKLY.name,
-                limitAmount = 120.0,
-                spentAmount = 115.0
+                limitAmount = 12000000.0,
+                spentAmount = 11500000.0
             ),
             BudgetEntity(
                 id = "b3",
                 categoryName = BudgetCategory.SHOPPING.name,
                 cycleName = BudgetCycle.MONTHLY.name,
-                limitAmount = 300.0,
-                spentAmount = 320.0
+                limitAmount = 3000000.0,
+                spentAmount = 3200000.0
             ),
             BudgetEntity(
                 id = "b4",
                 categoryName = BudgetCategory.ENTERTAINMENT.name,
                 cycleName = BudgetCycle.MONTHLY.name,
-                limitAmount = 150.0,
-                spentAmount = 45.0
+                limitAmount = 150000.0,
+                spentAmount = 45000.0
             )
         )
 
@@ -81,7 +81,7 @@ class LocalDataSource @Inject constructor() {
                 id = "e1",
                 title = "Grocery Store",
                 categoryName = BudgetCategory.SHOPPING.name,
-                amount = 120.0,
+                amount = 120000.0,
                 timestamp = System.currentTimeMillis() - 3600000,
                 dateString = "Oct 24, 2023 - 14:30",
                 isExceededLimit = true
@@ -90,7 +90,7 @@ class LocalDataSource @Inject constructor() {
                 id = "e2",
                 title = "Uber Ride",
                 categoryName = BudgetCategory.TRANSPORTATION.name,
-                amount = 25.0,
+                amount = 25000.0,
                 timestamp = System.currentTimeMillis() - 7200000,
                 dateString = "Oct 24, 2023 - 12:15",
                 isExceededLimit = false
@@ -99,7 +99,7 @@ class LocalDataSource @Inject constructor() {
                 id = "e3",
                 title = "Lunch Special",
                 categoryName = BudgetCategory.FOOD_DINING.name,
-                amount = 18.0,
+                amount = 18000.0,
                 timestamp = System.currentTimeMillis() - 86400000,
                 dateString = "Oct 23, 2023 - 13:00",
                 isExceededLimit = false

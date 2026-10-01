@@ -1,7 +1,13 @@
 package com.example.budgetlimittracking.ui.navigation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddCircleOutline
+import androidx.compose.material.icons.filled.Dashboard
+import androidx.compose.material.icons.filled.Timelapse
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -45,12 +51,13 @@ fun AppNavigation(
                         onClick = { currentScreen = screen },
                         label = { Text(screen.title) },
                         icon = {
-                            Text(
-                                text = when (screen) {
-                                    Screen.DASHBOARD -> "📊"
-                                    Screen.RECORD_EXPENSE -> "➕"
-                                    Screen.HISTORY -> "📜"
-                                }
+                            Icon(
+                                imageVector = when (screen) {
+                                    Screen.DASHBOARD -> Icons.Default.Dashboard
+                                    Screen.RECORD_EXPENSE -> Icons.Default.AddCircleOutline
+                                    Screen.HISTORY -> Icons.Default.Timelapse
+                                },
+                                contentDescription = "${screen.title} Icon"
                             )
                         },
                         colors = NavigationBarItemDefaults.colors(

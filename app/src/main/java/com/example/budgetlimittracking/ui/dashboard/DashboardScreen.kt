@@ -68,67 +68,46 @@ fun DashboardScreen(
 ) {
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        topBar = {
-            TopAppBar(
-                title = {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = Dimens.SpaceMd)
-                    ) {
-                        InlineIconText(
-                            text = "Today, ${Utils.getTodayFormatted()}",
-                            icon = Icons.Default.CalendarToday,
-                            iconTint = MaterialTheme.colorScheme.primary,
-                        )
-                        Spacer(modifier = Modifier.height(2.dp))
-                        Text(
-                            text = "Dashboard  ",
-                            style = MaterialTheme.typography.headlineLarge,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
-                )
-            )
-        },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onNavigateToAddBudget,
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.onPrimary,
-                shape = RoundedCornerShape(9999.dp),
-                modifier = Modifier.height(48.dp)
+                shape = CircleShape,
             ) {
-                Row(
-                    modifier = Modifier.padding(horizontal = Dimens.SpaceLg),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(Dimens.SpaceSm)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = "New Budget",
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Text(
-                        text = "New Budget",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.SemiBold,
-                        color = MaterialTheme.colorScheme.onPrimary
-                    )
-                }
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "New Budget",
+                    modifier = Modifier.size(32.dp)
+                )
             }
         }
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding),
+                .fillMaxSize(),
             contentPadding = PaddingValues(Dimens.Margin),
             verticalArrangement = Arrangement.spacedBy(Dimens.SpaceMd)
         ) {
+            item {
+                Column(
+                    verticalArrangement = Arrangement.Top,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    InlineIconText(
+                        text = "Today, ${Utils.getTodayFormatted()}",
+                        icon = Icons.Default.CalendarToday,
+                        iconTint = MaterialTheme.colorScheme.primary,
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = "Dashboard  ",
+                        style = MaterialTheme.typography.headlineLarge,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+            }
             // 1. Monthly Velocity Summary Bento Card
             item {
                 Card(
@@ -364,22 +343,22 @@ fun DashboardScreen(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun DashboardPreview() {
-    BudgetQTheme {
-        DashboardScreen(
-            uiState = DashboardUiState(
-                budgets = listOf(
-                    Budget("1", BudgetCategory.FOOD_DINING, BudgetCycle.DAILY, 30.0, 45.0),
-                    Budget("2", BudgetCategory.SHOPPING, BudgetCycle.WEEKLY, 150.0, 185.0),
-                    Budget("3", BudgetCategory.ENTERTAINMENT, BudgetCycle.DAILY, 10.0, 8.5)
-                ),
-                totalLimit = 3200000.0,
-                totalSpent = 2500000.0
-            ),
-            onCycleSelected = {},
-            onNavigateToAddBudget = {}
-        )
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun DashboardPreview() {
+//    BudgetQTheme {
+//        DashboardScreen(
+//            uiState = DashboardUiState(
+//                budgets = listOf(
+//                    Budget("1", BudgetCategory.FOOD_DINING, BudgetCycle.DAILY, 30.0, 45.0),
+//                    Budget("2", BudgetCategory.SHOPPING, BudgetCycle.WEEKLY, 150.0, 185.0),
+//                    Budget("3", BudgetCategory.ENTERTAINMENT, BudgetCycle.DAILY, 10.0, 8.5)
+//                ),
+//                totalLimit = 3200000.0,
+//                totalSpent = 2500000.0
+//            ),
+//            onCycleSelected = {},
+//            onNavigateToAddBudget = {}
+//        )
+//    }
+//}

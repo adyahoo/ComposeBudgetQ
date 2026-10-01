@@ -32,6 +32,7 @@ class DashboardViewModel @Inject constructor(
     private fun loadBudgets(cycle: BudgetCycle) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
+
             getBudgetsUseCase(cycle).collect { budgetList ->
                 val totalLimit = budgetList.sumOf { it.limitAmount }
                 val totalSpent = budgetList.sumOf { it.spentAmount }
