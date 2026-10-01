@@ -16,6 +16,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,11 +31,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.budgetlimittracking.domain.model.BudgetCycle
 import com.example.budgetlimittracking.ui.components.ExpenseCard
+import com.example.budgetlimittracking.ui.components.InlineIconText
 import com.example.budgetlimittracking.ui.theme.Dimens
 import com.example.budgetlimittracking.ui.theme.NumericMetric
+import com.example.budgetlimittracking.utils.Utils
+import java.util.Date
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,10 +55,19 @@ fun DashboardScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(
-                        text = "Dashboard",
-                        style = MaterialTheme.typography.headlineLarge
-                    )
+                    Column(
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(top = 16.dp)
+                    ) {
+                        InlineIconText(
+                            "Today, ${Utils.getTodayFormatted()}",
+                            icon = Icons.Default.DateRange,
+                        )
+                        Text(
+                            text = "Dashboard",
+                            style = MaterialTheme.typography.headlineSmall
+                        )
+                    }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.background
@@ -94,7 +109,7 @@ fun DashboardScreen(
                     ) {
                         Text(
                             text = "Monthly Spending Summary",
-                            style = MaterialTheme.typography.labelMedium,
+                            style = MaterialTheme.typography.labelLarge,
                             color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                         Spacer(modifier = Modifier.height(Dimens.SpaceXs))
@@ -170,4 +185,14 @@ fun DashboardScreen(
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DashboardPreview() {
+    DashboardScreen(
+        DashboardUiState(),
+        {},
+        {}
+    )
 }

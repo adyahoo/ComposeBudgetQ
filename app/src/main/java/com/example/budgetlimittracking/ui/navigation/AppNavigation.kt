@@ -64,6 +64,7 @@ fun AppNavigation(
         }
     ) { innerPadding ->
         val paddingModifier = Modifier.padding(innerPadding)
+
         when (currentScreen) {
             Screen.DASHBOARD -> {
                 val uiState by dashboardViewModel.uiState.collectAsState()
