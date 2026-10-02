@@ -24,14 +24,14 @@ class HistoryViewModel @Inject constructor(
         loadHistory("", LimitStatus.ALL)
     }
 
-    fun onSearchQueryChanged(query: String) {
-        _uiState.update { it.copy(searchQuery = query) }
-        loadHistory(query, _uiState.value.selectedStatusFilter)
-    }
-
     fun onStatusFilterSelected(status: LimitStatus) {
         _uiState.update { it.copy(selectedStatusFilter = status) }
         loadHistory(_uiState.value.searchQuery, status)
+    }
+
+    private fun onSearchQueryChanged(query: String) {
+        _uiState.update { it.copy(searchQuery = query) }
+        loadHistory(query, _uiState.value.selectedStatusFilter)
     }
 
     private fun loadHistory(query: String, status: LimitStatus) {

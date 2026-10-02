@@ -79,7 +79,6 @@ class LocalDataSource @Inject constructor() {
         fun initialExpenses() = listOf(
             ExpenseEntity(
                 id = "e1",
-                title = "Grocery Store",
                 categoryName = BudgetCategory.SHOPPING.name,
                 amount = 120000.0,
                 timestamp = System.currentTimeMillis() - 3600000,
@@ -88,7 +87,6 @@ class LocalDataSource @Inject constructor() {
             ),
             ExpenseEntity(
                 id = "e2",
-                title = "Uber Ride",
                 categoryName = BudgetCategory.TRANSPORTATION.name,
                 amount = 25000.0,
                 timestamp = System.currentTimeMillis() - 7200000,
@@ -97,13 +95,28 @@ class LocalDataSource @Inject constructor() {
             ),
             ExpenseEntity(
                 id = "e3",
-                title = "Lunch Special",
                 categoryName = BudgetCategory.FOOD_DINING.name,
                 amount = 18000.0,
                 timestamp = System.currentTimeMillis() - 86400000,
                 dateString = "Oct 23, 2023 - 13:00",
                 isExceededLimit = false
-            )
+            ),
+            ExpenseEntity(
+                id = "e4",
+                categoryName = BudgetCategory.SHOPPING.name,
+                amount = 120000.0,
+                timestamp = System.currentTimeMillis() - 3600000,
+                dateString = "Oct 24, 2023 - 14:30",
+                isExceededLimit = true
+            ),
+            ExpenseEntity(
+                id = "e5",
+                categoryName = BudgetCategory.SHOPPING.name,
+                amount = 120000.0,
+                timestamp = System.currentTimeMillis() - 3600000,
+                dateString = "Oct 24, 2023 - 14:30",
+                isExceededLimit = true
+            ),
         )
     }
 }
