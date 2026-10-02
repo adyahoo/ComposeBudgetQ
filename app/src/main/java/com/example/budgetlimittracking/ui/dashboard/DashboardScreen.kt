@@ -345,22 +345,22 @@ fun DashboardScreen(
     }
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun DashboardPreview() {
-//    BudgetQTheme {
-//        DashboardScreen(
-//            uiState = DashboardUiState(
-//                budgets = listOf(
-//                    Budget("1", BudgetCategory.FOOD_DINING, BudgetCycle.DAILY, 30.0, 45.0),
-//                    Budget("2", BudgetCategory.SHOPPING, BudgetCycle.WEEKLY, 150.0, 185.0),
-//                    Budget("3", BudgetCategory.ENTERTAINMENT, BudgetCycle.DAILY, 10.0, 8.5)
-//                ),
-//                totalLimit = 3200000.0,
-//                totalSpent = 2500000.0
-//            ),
-//            onCycleSelected = {},
-//            onNavigateToAddBudget = {}
-//        )
-//    }
-//}
+@Preview(showBackground = true)
+@Composable
+fun DashboardPreview() {
+    BudgetQTheme {
+        DashboardScreen(
+            uiState = DashboardUiState(
+                budgets = listOf(
+                    Budget("1", BudgetCategory.FOOD_DINING, BudgetCycle.DAILY, 30.0, 45.0),
+                    Budget("2", BudgetCategory.SHOPPING, BudgetCycle.WEEKLY, 150.0, 185.0),
+                    Budget("3", BudgetCategory.ENTERTAINMENT, BudgetCycle.DAILY, 10.0, 8.5)
+                ),
+                totalLimit = 3200000.0,
+                totalSpent = 2500000.0
+            ),
+            onCycleSelected = {},
+            onNavigateToAddBudget = {}
+        )
+    }
+}

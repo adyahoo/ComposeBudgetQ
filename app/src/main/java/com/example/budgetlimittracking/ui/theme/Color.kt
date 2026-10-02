@@ -62,4 +62,4 @@ val TagMonthlyBorder = Color(0xffbae6fd)
 val ProgressSafe = Color(0xFF10B981)      // 0% - 75%
 val ProgressCaution = Color(0xFFF59E0B)   // 76% - 95%
 val ProgressWarning = Color(0xFFEF4444)   // 96% - 100%+
-val ProgressTrackBase = Color(0xFFF1F5F9)
+val ProgressTrackBase = Color(0xFFE5E5E7)

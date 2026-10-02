@@ -46,6 +46,7 @@ import com.example.budgetlimittracking.domain.model.BudgetCycle
 import com.example.budgetlimittracking.domain.model.LimitStatus
 import com.example.budgetlimittracking.ui.theme.Dimens
 import com.example.budgetlimittracking.ui.theme.NumericData
+import com.example.budgetlimittracking.utils.Utils.getCategoryIcon
 import com.example.budgetlimittracking.utils.toDotDecimalString
 import java.util.Locale
 
@@ -219,17 +220,6 @@ fun ExpenseCard(
             }
         }
     }
-}
-
-private fun getCategoryIcon(category: BudgetCategory): ImageVector = when (category) {
-    BudgetCategory.FOOD_DINING -> Icons.Default.Restaurant
-    BudgetCategory.TRANSPORTATION -> Icons.Default.DirectionsBus
-    BudgetCategory.HOUSING -> Icons.Default.Home
-    BudgetCategory.ENTERTAINMENT -> Icons.Default.ConfirmationNumber
-    BudgetCategory.SHOPPING -> Icons.Default.ShoppingCart
-    BudgetCategory.UTILITIES -> Icons.Default.Bolt
-    BudgetCategory.HEALTH -> Icons.Default.FitnessCenter
-    BudgetCategory.OTHER -> Icons.Default.Category
 }
 
 @Composable

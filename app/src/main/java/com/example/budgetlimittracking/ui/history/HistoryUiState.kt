@@ -8,4 +8,10 @@ data class HistoryUiState(
     val selectedStatusFilter: LimitStatus = LimitStatus.ALL,
     val expenses: List<Expense> = emptyList(),
     val isLoading: Boolean = false
-)
+) {
+    val verifiedCount: Int
+        get() = expenses.size
+
+    val exceededCount: Int
+        get() = expenses.count { it.isExceededLimit }
+}
