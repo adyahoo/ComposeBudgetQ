@@ -23,7 +23,6 @@ class ExpenseRepositoryImpl @Inject constructor(
             list.map { it.toDomain() }
                 .filter { expense ->
                     val matchesQuery = query.isBlank() ||
-                            expense.title.contains(query, ignoreCase = true) ||
                             expense.category.displayName.contains(query, ignoreCase = true)
 
                     val matchesStatus = when (statusFilter) {

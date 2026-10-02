@@ -22,28 +22,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Notes
 import androidx.compose.material.icons.automirrored.filled.ReceiptLong
 import androidx.compose.material.icons.filled.Analytics
-import androidx.compose.material.icons.filled.Bolt
-import androidx.compose.material.icons.filled.Cancel
-import androidx.compose.material.icons.filled.Category
 import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.ConfirmationNumber
-import androidx.compose.material.icons.filled.DirectionsBus
 import androidx.compose.material.icons.filled.Error
-import androidx.compose.material.icons.filled.FitnessCenter
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Restaurant
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.SearchOff
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -52,7 +39,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -69,13 +55,11 @@ import com.example.budgetlimittracking.ui.theme.NumericData
 import com.example.budgetlimittracking.ui.theme.NumericMetric
 import com.example.budgetlimittracking.utils.Utils.getCategoryIcon
 import com.example.budgetlimittracking.utils.toDotDecimalString
-import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HistoryScreen(
     uiState: HistoryUiState,
-    onSearchQueryChanged: (String) -> Unit,
     onStatusFilterSelected: (LimitStatus) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -115,48 +99,7 @@ fun HistoryScreen(
                 .padding(horizontal = Dimens.Margin),
             verticalArrangement = Arrangement.spacedBy(Dimens.SpaceMd)
         ) {
-            // 1. Search Bar
-            OutlinedTextField(
-                value = uiState.searchQuery,
-                onValueChange = onSearchQueryChanged,
-                placeholder = {
-                    Text(
-                        text = "Search by item, note, or date...",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.outline
-                    )
-                },
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Default.Search,
-                        contentDescription = "Search",
-                        tint = MaterialTheme.colorScheme.outline,
-                        modifier = Modifier.size(20.dp)
-                    )
-                },
-                trailingIcon = {
-                    if (uiState.searchQuery.isNotEmpty()) {
-                        IconButton(onClick = { onSearchQueryChanged("") }) {
-                            Icon(
-                                imageVector = Icons.Default.Cancel,
-                                contentDescription = "Clear search",
-                                tint = MaterialTheme.colorScheme.outline,
-                                modifier = Modifier.size(18.dp)
-                            )
-                        }
-                    }
-                },
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
-                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
-                    focusedBorderColor = MaterialTheme.colorScheme.primary,
-                    unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant
-                )
-            )
-
-            // 2. Filter Chips Ribbon
+            // 1. Filter Chips Ribbon
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(Dimens.SpaceSm)
             ) {
@@ -212,7 +155,7 @@ fun HistoryScreen(
                 }
             }
 
-            // 3. Audit Summary Insight Bar
+            // 2. Audit Summary Insight Bar
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
@@ -290,7 +233,7 @@ fun HistoryScreen(
                 }
             }
 
-            // 4. Submission Log Items Stream
+            // 3. Submission Log Items Stream
             if (uiState.expenses.isEmpty()) {
                 Box(
                     modifier = Modifier
@@ -320,12 +263,12 @@ fun HistoryScreen(
                             )
                         }
                         Text(
-                            text = "No matching audit logs",
+                            text = "No submission records",
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
-                            text = "Try refining your search keyword or clearing the filters.",
+                            text = "Try selecting a different filter option.",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -509,26 +452,6 @@ fun ExpenseHistoryItem(
                     )
                 }
             }
-
-            // Note Context Row
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(6.dp),
-                modifier = Modifier.padding(top = 2.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.Notes,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.outline,
-                    modifier = Modifier.size(16.dp)
-                )
-                Text(
-                    text = "“${expense.title}”",
-                    style = MaterialTheme.typography.bodySmall,
-                    fontStyle = FontStyle.Italic,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-            }
         }
     }
 }
@@ -540,11 +463,10 @@ fun HistoryPreview() {
         HistoryScreen(
             uiState = HistoryUiState(
                 expenses = listOf(
-                    Expense("1", "Team lunch at Osteria", BudgetCategory.FOOD_DINING, 45000000.0, System.currentTimeMillis(), "Today, 1:15 PM", true),
-                    Expense("2", "Morning Coffee & Croissant", BudgetCategory.FOOD_DINING, 4500.0, System.currentTimeMillis(), "Oct 23, 9:20 AM", false)
+                    Expense("1", BudgetCategory.FOOD_DINING, 45000000.0, System.currentTimeMillis(), "Today, 1:15 PM", true),
+                    Expense("2",  BudgetCategory.FOOD_DINING, 4500.0, System.currentTimeMillis(), "Oct 23, 9:20 AM", false)
                 )
             ),
-            onSearchQueryChanged = {},
             onStatusFilterSelected = {}
         )
     }

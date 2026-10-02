@@ -96,7 +96,6 @@ fun AppNavigation(
                 val uiState by historyViewModel.uiState.collectAsState()
                 HistoryScreen(
                     uiState = uiState,
-                    onSearchQueryChanged = historyViewModel::onSearchQueryChanged,
                     onStatusFilterSelected = historyViewModel::onStatusFilterSelected,
                     modifier = paddingModifier
                 )

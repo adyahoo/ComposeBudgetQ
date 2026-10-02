@@ -36,7 +36,6 @@ class RecordExpenseUseCase @Inject constructor(
 
         val newExpense = Expense(
             id = UUID.randomUUID().toString(),
-            title = title.ifBlank { budget.category.displayName },
             category = budget.category,
             amount = amount,
             timestamp = now,

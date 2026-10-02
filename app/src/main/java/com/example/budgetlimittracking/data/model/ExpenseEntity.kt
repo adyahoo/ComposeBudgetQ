@@ -5,7 +5,6 @@ import com.example.budgetlimittracking.domain.model.Expense
 
 data class ExpenseEntity(
     val id: String,
-    val title: String,
     val categoryName: String,
     val amount: Double,
     val timestamp: Long,
@@ -15,7 +14,6 @@ data class ExpenseEntity(
     fun toDomain(): Expense {
         return Expense(
             id = id,
-            title = title,
             category = try {
                 BudgetCategory.valueOf(categoryName)
             } catch (e: Exception) {
@@ -32,7 +30,6 @@ data class ExpenseEntity(
         fun fromDomain(expense: Expense): ExpenseEntity {
             return ExpenseEntity(
                 id = expense.id,
-                title = expense.title,
                 categoryName = expense.category.name,
                 amount = expense.amount,
                 timestamp = expense.timestamp,
