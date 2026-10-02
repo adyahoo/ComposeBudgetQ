@@ -22,7 +22,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,8 +33,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,11 +42,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.budgetlimittracking.domain.model.Budget
 import com.example.budgetlimittracking.domain.model.BudgetCategory
 import com.example.budgetlimittracking.domain.model.BudgetCycle
 import com.example.budgetlimittracking.ui.components.BudgetProgressBar
+import com.example.budgetlimittracking.ui.components.EmptyStateCard
 import com.example.budgetlimittracking.ui.components.ExpenseCard
 import com.example.budgetlimittracking.ui.components.InlineIconText
 import com.example.budgetlimittracking.ui.theme.BudgetQTheme
@@ -54,7 +54,6 @@ import com.example.budgetlimittracking.ui.theme.Dimens
 import com.example.budgetlimittracking.ui.theme.NumericMetric
 import com.example.budgetlimittracking.utils.Utils
 import com.example.budgetlimittracking.utils.toDotDecimalString
-import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -93,8 +92,7 @@ fun DashboardScreen(
             item {
                 Column(
                     verticalArrangement = Arrangement.Top,
-                    modifier = Modifier
-                        .fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     InlineIconText(
                         text = "Today, ${Utils.getTodayFormatted()}",
@@ -150,8 +148,7 @@ fun DashboardScreen(
                                         text = uiState.totalSpent.toDotDecimalString(),
                                         style = NumericMetric,
                                         color = MaterialTheme.colorScheme.onSurface,
-                                        modifier = Modifier
-                                            .fillMaxWidth()
+                                        modifier = Modifier.fillMaxWidth()
                                     )
                                     Text(
                                         text = uiState.totalLimit.toDotDecimalString(),
@@ -201,56 +198,71 @@ fun DashboardScreen(
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(Dimens.SpaceSm)
-                            ) {
-                                Box(
-                                    modifier = Modifier
-                                        .size(24.dp)
-                                        .clip(CircleShape)
-                                        .background(MaterialTheme.colorScheme.secondaryContainer),
-                                    contentAlignment = Alignment.Center
+                            if (uiState.budgets.isEmpty()) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.Center
                                 ) {
-                                    Icon(
-                                        imageVector = Icons.Default.Check,
-                                        contentDescription = "Within Limit",
-                                        tint = MaterialTheme.colorScheme.onSecondaryContainer,
-                                        modifier = Modifier.size(14.dp)
+                                    InlineIconText(
+                                        "Belum ada budget",
+                                        textColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        icon = Icons.Outlined.Info,
+                                        iconTint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        iconSize = 20.dp
                                     )
                                 }
-                                Text(
-                                    text = "${uiState.withinLimitCount} Within Limit",
-                                    style = MaterialTheme.typography.labelMedium,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = MaterialTheme.colorScheme.secondary
-                                )
-                            }
+                            } else {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(Dimens.SpaceSm)
+                                ) {
+                                    Box(
+                                        modifier = Modifier
+                                            .size(24.dp)
+                                            .clip(CircleShape)
+                                            .background(MaterialTheme.colorScheme.secondaryContainer),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Check,
+                                            contentDescription = "Within Limit",
+                                            tint = MaterialTheme.colorScheme.onSecondaryContainer,
+                                            modifier = Modifier.size(14.dp)
+                                        )
+                                    }
+                                    Text(
+                                        text = "${uiState.withinLimitCount} Within Limit",
+                                        style = MaterialTheme.typography.labelMedium,
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = MaterialTheme.colorScheme.secondary
+                                    )
+                                }
 
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(Dimens.SpaceSm)
-                            ) {
-                                Box(
-                                    modifier = Modifier
-                                        .size(24.dp)
-                                        .clip(CircleShape)
-                                        .background(MaterialTheme.colorScheme.tertiaryContainer),
-                                    contentAlignment = Alignment.Center
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(Dimens.SpaceSm)
                                 ) {
-                                    Icon(
-                                        imageVector = Icons.Default.Warning,
-                                        contentDescription = "Exceeded",
-                                        tint = MaterialTheme.colorScheme.onTertiaryContainer,
-                                        modifier = Modifier.size(14.dp)
+                                    Box(
+                                        modifier = Modifier
+                                            .size(24.dp)
+                                            .clip(CircleShape)
+                                            .background(MaterialTheme.colorScheme.tertiaryContainer),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Warning,
+                                            contentDescription = "Exceeded",
+                                            tint = MaterialTheme.colorScheme.onTertiaryContainer,
+                                            modifier = Modifier.size(14.dp)
+                                        )
+                                    }
+                                    Text(
+                                        text = "${uiState.exceededCount} Exceeded",
+                                        style = MaterialTheme.typography.labelMedium,
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = MaterialTheme.colorScheme.tertiary
                                     )
                                 }
-                                Text(
-                                    text = "${uiState.exceededCount} Exceeded",
-                                    style = MaterialTheme.typography.labelMedium,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = MaterialTheme.colorScheme.tertiary
-                                )
                             }
                         }
                     }
@@ -330,16 +342,28 @@ fun DashboardScreen(
                 }
             }
 
-            // 4. Budget List Cards
-            items(
-                items = uiState.budgets,
-                key = { it.id }
-            ) { budget ->
-                ExpenseCard(
-                    budget = budget,
-                    onEditBudget = onEditBudget,
-                    onDeleteBudget = onDeleteBudget
-                )
+            // 4. Budget List Cards or Empty State Card
+            if (uiState.budgets.isEmpty()) {
+                item {
+                    EmptyStateCard(
+                        title = "No Active Budgets",
+                        description = "Create your first budget to start tracking and controlling daily and monthly expenses.",
+                        buttonText = "Create First Budget",
+                        tipText = "Set a daily limit to keep your spending automatically controlled.",
+                        onActionClick = onNavigateToAddBudget
+                    )
+                }
+            } else {
+                items(
+                    items = uiState.budgets,
+                    key = { it.id }
+                ) { budget ->
+                    ExpenseCard(
+                        budget = budget,
+                        onEditBudget = onEditBudget,
+                        onDeleteBudget = onDeleteBudget
+                    )
+                }
             }
         }
     }
@@ -358,6 +382,22 @@ fun DashboardPreview() {
                 ),
                 totalLimit = 3200000.0,
                 totalSpent = 2500000.0
+            ),
+            onCycleSelected = {},
+            onNavigateToAddBudget = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DashboardEmptyPreview() {
+    BudgetQTheme {
+        DashboardScreen(
+            uiState = DashboardUiState(
+                budgets = emptyList(),
+                totalLimit = 0.0,
+                totalSpent = 0.0
             ),
             onCycleSelected = {},
             onNavigateToAddBudget = {}

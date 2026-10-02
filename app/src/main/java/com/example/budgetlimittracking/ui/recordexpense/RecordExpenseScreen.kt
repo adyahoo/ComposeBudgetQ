@@ -186,7 +186,11 @@ fun RecordExpenseScreen(
                                     .height(48.dp)
                                     .clip(RoundedCornerShape(12.dp))
                                     .background(MaterialTheme.colorScheme.primaryContainer)
-                                    .clickable { isCategoryDropdownExpanded = true }
+                                    .clickable {
+                                        if (uiState.budgets.isNotEmpty()) {
+                                            isCategoryDropdownExpanded = true
+                                        }
+                                    }
                                     .padding(horizontal = Dimens.SpaceMd),
                                 contentAlignment = Alignment.CenterStart
                             ) {
@@ -196,7 +200,9 @@ fun RecordExpenseScreen(
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Text(
-                                        text = if (uiState.selectedBudget != null) uiState.selectedBudget.category.displayName
+                                        text = if (uiState.selectedBudget != null)
+                                            uiState.selectedBudget.category.displayName
+                                        else if (uiState.budgets.isEmpty()) "No Budget"
                                         else "Select Budget",
                                         style = MaterialTheme.typography.bodyMedium,
                                         color = MaterialTheme.colorScheme.onSurface
@@ -213,7 +219,7 @@ fun RecordExpenseScreen(
                                 expanded = isCategoryDropdownExpanded,
                                 onDismissRequest = { isCategoryDropdownExpanded = false },
                                 modifier = Modifier.fillMaxWidth(0.85f),
-                                containerColor = MaterialTheme.colorScheme.primaryContainer
+                                containerColor = MaterialTheme.colorScheme.primaryContainer,
                             ) {
                                 uiState.budgets.forEach { budget ->
                                     val category = budget.category
@@ -227,7 +233,7 @@ fun RecordExpenseScreen(
                                         onClick = {
                                             onBudgetSelected(budget)
                                             isCategoryDropdownExpanded = false
-                                        }
+                                        },
                                     )
                                 }
                             }

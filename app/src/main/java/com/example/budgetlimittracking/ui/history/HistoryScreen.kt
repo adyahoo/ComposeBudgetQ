@@ -49,6 +49,7 @@ import com.example.budgetlimittracking.domain.model.BudgetCategory
 import com.example.budgetlimittracking.domain.model.Expense
 import com.example.budgetlimittracking.domain.model.LimitStatus
 import com.example.budgetlimittracking.ui.components.BudgetProgressBar
+import com.example.budgetlimittracking.ui.components.EmptyStateCard
 import com.example.budgetlimittracking.ui.theme.BudgetQTheme
 import com.example.budgetlimittracking.ui.theme.Dimens
 import com.example.budgetlimittracking.ui.theme.NumericData
@@ -227,45 +228,10 @@ fun HistoryScreen(
 
             // 3. Submission Log Items Stream
             if (uiState.expenses.isEmpty()) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = Dimens.SpaceXl)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(MaterialTheme.colorScheme.surfaceContainerLow)
-                        .padding(Dimens.SpaceLg),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(Dimens.SpaceSm)
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .size(48.dp)
-                                .clip(CircleShape)
-                                .background(MaterialTheme.colorScheme.surfaceContainerHighest),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.SearchOff,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.outline,
-                                modifier = Modifier.size(24.dp)
-                            )
-                        }
-                        Text(
-                            text = "No submission records",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                        Text(
-                            text = "Try selecting a different filter option.",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
+                EmptyStateCard(
+                    title = "No Submission History",
+                    description = "No transactions have been submitted yet.",
+                )
             } else {
                 LazyColumn(
                     contentPadding = PaddingValues(bottom = Dimens.SpaceXl),
@@ -456,8 +422,21 @@ fun HistoryPreview() {
             uiState = HistoryUiState(
                 expenses = listOf(
                     Expense("1", BudgetCategory.FOOD_DINING, 45000000.0, System.currentTimeMillis(), "Today, 1:15 PM", true),
-                    Expense("2",  BudgetCategory.FOOD_DINING, 4500.0, System.currentTimeMillis(), "Oct 23, 9:20 AM", false)
+                    Expense("2", BudgetCategory.FOOD_DINING, 4500.0, System.currentTimeMillis(), "Oct 23, 9:20 AM", false)
                 )
+            ),
+            onStatusFilterSelected = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HistoryEmptyPreview() {
+    BudgetQTheme {
+        HistoryScreen(
+            uiState = HistoryUiState(
+                expenses = listOf()
             ),
             onStatusFilterSelected = {}
         )
