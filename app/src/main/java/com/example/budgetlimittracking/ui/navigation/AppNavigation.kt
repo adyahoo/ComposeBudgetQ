@@ -21,6 +21,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.budgetlimittracking.ui.addeditbudget.AddEditBudgetScreen
+import com.example.budgetlimittracking.ui.addeditbudget.AddEditBudgetViewModel
 import com.example.budgetlimittracking.ui.dashboard.DashboardScreen
 import com.example.budgetlimittracking.ui.dashboard.DashboardViewModel
 import com.example.budgetlimittracking.ui.history.HistoryScreen
@@ -32,6 +34,7 @@ import com.example.budgetlimittracking.ui.recordexpense.RecordExpenseViewModel
 fun AppNavigation(
     modifier: Modifier = Modifier,
     dashboardViewModel: DashboardViewModel = hiltViewModel(),
+    addEditBudgetViewModel: AddEditBudgetViewModel = hiltViewModel(),
     recordExpenseViewModel: RecordExpenseViewModel = hiltViewModel(),
     historyViewModel: HistoryViewModel = hiltViewModel()
 ) {
@@ -44,7 +47,8 @@ fun AppNavigation(
                 containerColor = MaterialTheme.colorScheme.surface,
                 contentColor = MaterialTheme.colorScheme.onSurface
             ) {
-                Screen.entries.forEach { screen ->
+                val bottomBarScreens = listOf(Screen.DASHBOARD, Screen.RECORD_EXPENSE, Screen.HISTORY)
+                bottomBarScreens.forEach { screen ->
                     NavigationBarItem(
                         selected = currentScreen == screen,
                         onClick = { currentScreen = screen },
@@ -55,6 +59,7 @@ fun AppNavigation(
                                     Screen.DASHBOARD -> Icons.Default.Dashboard
                                     Screen.RECORD_EXPENSE -> Icons.Default.AddCircleOutline
                                     Screen.HISTORY -> Icons.Default.Timelapse
+                                    Screen.ADD_EDIT_BUDGET -> Icons.Default.Dashboard
                                 },
                                 contentDescription = "${screen.title} Icon"
                             )
@@ -77,7 +82,28 @@ fun AppNavigation(
                 DashboardScreen(
                     uiState = uiState,
                     onCycleSelected = dashboardViewModel::onCycleSelected,
-                    onNavigateToAddBudget = { currentScreen = Screen.RECORD_EXPENSE },
+                    onNavigateToAddBudget = {
+                        addEditBudgetViewModel.loadBudgetForEdit(null)
+                        currentScreen = Screen.ADD_EDIT_BUDGET
+                    },
+                    onEditBudget = { budget ->
+                        addEditBudgetViewModel.loadBudgetForEdit(budget.id)
+                        currentScreen = Screen.ADD_EDIT_BUDGET
+                    },
+                    modifier = paddingModifier
+                )
+            }
+            Screen.ADD_EDIT_BUDGET -> {
+                val uiState by addEditBudgetViewModel.uiState.collectAsState()
+                AddEditBudgetScreen(
+                    uiState = uiState,
+                    onCategorySelected = addEditBudgetViewModel::onCategorySelected,
+                    onCustomCategoryNameChanged = addEditBudgetViewModel::onCustomCategoryNameChanged,
+                    onLimitAmountChanged = addEditBudgetViewModel::onLimitAmountChanged,
+                    onPresetSelected = addEditBudgetViewModel::onPresetSelected,
+                    onCycleSelected = addEditBudgetViewModel::onCycleSelected,
+                    onSaveBudget = addEditBudgetViewModel::saveBudget,
+                    onNavigateBack = { currentScreen = Screen.DASHBOARD },
                     modifier = paddingModifier
                 )
             }
