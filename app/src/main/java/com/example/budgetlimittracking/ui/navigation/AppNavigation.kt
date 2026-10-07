@@ -90,6 +90,9 @@ fun AppNavigation(
                         addEditBudgetViewModel.loadBudgetForEdit(budget.id)
                         currentScreen = Screen.ADD_EDIT_BUDGET
                     },
+                    onDeleteBudget = { budget ->
+                        dashboardViewModel.deleteBudget(budget.id)
+                    },
                     modifier = paddingModifier
                 )
             }

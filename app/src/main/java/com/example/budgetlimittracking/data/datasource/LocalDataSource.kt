@@ -38,6 +38,12 @@ class LocalDataSource @Inject constructor() {
         }
     }
 
+    fun deleteBudget(budgetId: String) {
+        _budgets.update { list ->
+            list.filterNot { it.id == budgetId }
+        }
+    }
+
     fun addExpense(expense: ExpenseEntity) {
         _expenses.update { list ->
             listOf(expense) + list

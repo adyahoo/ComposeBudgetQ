@@ -22,7 +22,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Card
@@ -34,6 +33,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -46,6 +49,7 @@ import com.example.budgetlimittracking.domain.model.Budget
 import com.example.budgetlimittracking.domain.model.BudgetCategory
 import com.example.budgetlimittracking.domain.model.BudgetCycle
 import com.example.budgetlimittracking.ui.components.BudgetProgressBar
+import com.example.budgetlimittracking.ui.components.DeleteBudgetDialog
 import com.example.budgetlimittracking.ui.components.EmptyStateCard
 import com.example.budgetlimittracking.ui.components.ExpenseCard
 import com.example.budgetlimittracking.ui.components.InlineIconText
@@ -65,6 +69,19 @@ fun DashboardScreen(
     onEditBudget: ((Budget) -> Unit)? = null,
     onDeleteBudget: ((Budget) -> Unit)? = null
 ) {
+    var budgetPendingDelete by remember { mutableStateOf<Budget?>(null) }
+
+    budgetPendingDelete?.let { budget ->
+        DeleteBudgetDialog(
+            budget = budget,
+            onConfirmDelete = { budget ->
+                onDeleteBudget?.invoke(budget)
+                budgetPendingDelete = null
+            },
+            onDismiss = { budgetPendingDelete = null }
+        )
+    }
+
     Scaffold(
         modifier = modifier.fillMaxSize(),
         floatingActionButton = {
@@ -101,7 +118,7 @@ fun DashboardScreen(
                     )
                     Spacer(modifier = Modifier.height(2.dp))
                     Text(
-                        text = "Dashboard  ",
+                        text = "Dashboard",
                         style = MaterialTheme.typography.headlineLarge,
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -361,7 +378,9 @@ fun DashboardScreen(
                     ExpenseCard(
                         budget = budget,
                         onEditBudget = onEditBudget,
-                        onDeleteBudget = onDeleteBudget
+                        onDeleteBudget = { budgetToDelete ->
+                            budgetPendingDelete = budgetToDelete
+                        }
                     )
                 }
             }

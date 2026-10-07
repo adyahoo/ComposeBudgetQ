@@ -39,4 +39,8 @@ class BudgetRepositoryImpl @Inject constructor(
     override suspend fun updateSpentAmount(budgetId: String, newSpentAmount: Double) {
         localDataSource.updateBudgetSpent(budgetId, newSpentAmount)
     }
+
+    override suspend fun deleteBudget(budgetId: String) {
+        localDataSource.deleteBudget(budgetId)
+    }
 }

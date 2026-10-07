@@ -3,6 +3,7 @@ package com.example.budgetlimittracking.ui.dashboard
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.budgetlimittracking.domain.model.BudgetCycle
+import com.example.budgetlimittracking.domain.usecase.DeleteBudgetUseCase
 import com.example.budgetlimittracking.domain.usecase.GetBudgetsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
-    private val getBudgetsUseCase: GetBudgetsUseCase
+    private val getBudgetsUseCase: GetBudgetsUseCase,
+    private val deleteBudgetUseCase: DeleteBudgetUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(DashboardUiState())
@@ -27,6 +29,12 @@ class DashboardViewModel @Inject constructor(
     fun onCycleSelected(cycle: BudgetCycle) {
         _uiState.update { it.copy(selectedCycle = cycle) }
         loadBudgets(cycle)
+    }
+
+    fun deleteBudget(budgetId: String) {
+        viewModelScope.launch {
+            deleteBudgetUseCase(budgetId)
+        }
     }
 
     private fun loadBudgets(cycle: BudgetCycle) {
